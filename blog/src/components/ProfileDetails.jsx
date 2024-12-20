@@ -21,7 +21,7 @@ const ProfileDetails = ({ profile, closeModal }) => {
 
   const handleSubmit = (e)=>{
     e.preventDefault();
-    console.log(editedProfile)
+    console.log(editedProfile,"formdata")
   }
 
   return (
