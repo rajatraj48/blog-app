@@ -47,7 +47,10 @@ export const registerUser = async (name, username, email, password) => {
     } else {
       // For unexpected errors, you can throw a generic error
       throw new customError(
-        "An unexpected error occurred",500,"ServerError",error.message
+        "An unexpected error occurred",
+        500,
+        "ServerError",
+        error.message
       );
     }
   }
@@ -70,18 +73,14 @@ export const loginUser = async (username, password) => {
 
     console.log("Prisma query result:", user);
     if (!user) {
-     
-      throw new customError("Invalid credentials", 401,  "AuthenticationError");
+      throw new customError("Invalid credentials", 401, "AuthenticationError");
     }
 
-    
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      
-      throw new customError("Invalid credentials", 401,  "AuthenticationError");
+      throw new customError("Invalid credentials", 401, "AuthenticationError");
     }
 
-   
     const token = jwt.sign(
       {
         id: user.id,
@@ -98,8 +97,10 @@ export const loginUser = async (username, password) => {
     );
 
     // Return the user and token data
-    return { user: { ...user, role: user.role.name }, token: `Bearer ${token}` };
-
+    return {
+      user: { ...user, role: user.role.name },
+      token: `Bearer ${token}`,
+    };
   } catch (error) {
     // Handle and rethrow errors appropriately
     if (error instanceof customError) {
@@ -107,7 +108,12 @@ export const loginUser = async (username, password) => {
       throw error;
     } else {
       // For any unexpected errors, create a new custom error
-      throw new customError("An unexpected error occurred", 500, "ServerError", error.message);
+      throw new customError(
+        "An unexpected error occurred",
+        500,
+        "ServerError",
+        error.message
+      );
     }
   }
 };
@@ -122,16 +128,27 @@ export const updateUser = async (username, updatedData) => {
       },
     });
 
+    if (user.email === updatedData.email) {
+      throw new customError("Email already exist", 400, "ValidationError", {
+        field: "email",
+      });
+    }
+
     // If no user is found, throw an error
     if (!user) {
-      throw new customError("User not found", 404, "NotFound", `User with username ${username} does not exist.`);
+      throw new customError(
+        "User not found",404,"NotFound", `User with username ${username} does not exist.`
+      );
     }
 
     // If password is provided, hash it
-    if (updatedData.password) {
+    if (updatedData.password && updatedData.password.trim()) {
       const saltRounds = 10; // You can adjust the salt rounds for stronger hashing
       const salt = await bcrypt.genSalt(saltRounds);
       updatedData.password = await bcrypt.hash(updatedData.password, salt);
+    } else {
+      // Retain the existing password if no valid new password is provided
+      updatedData.password = user.password;
     }
 
     // Perform the update
@@ -144,7 +161,6 @@ export const updateUser = async (username, updatedData) => {
 
     // Return the updated user
     return { user: { ...updatedUser } };
-
   } catch (error) {
     console.log(error);
     if (error instanceof customError) {
@@ -152,8 +168,12 @@ export const updateUser = async (username, updatedData) => {
       throw error;
     } else {
       // For any unexpected errors, throw a custom error
-      throw new customError("An unexpected error occurred", 500, "ServerError", error.message);
+      throw new customError(
+        "An unexpected error occurred",
+        500,
+        "ServerError",
+        error.message
+      );
     }
   }
 };
-

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../context/userContext"; 
+
 
 const ProfileDetails = ({ profile, closeModal }) => {
   const { name, username, email, password } = profile;
-
+  const { setUser } = useContext(UserContext); 
   // State to handle changes in the input fields
   const [editedProfile, setEditedProfile] = useState({
     name: name || "John Doe",
@@ -19,9 +22,19 @@ const ProfileDetails = ({ profile, closeModal }) => {
     }));
   };
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async(e)=>{
     e.preventDefault();
     console.log(editedProfile,"formdata")
+    try {
+      const response = await axios.post('http://localhost:3000/api/v1/update', editedProfile)
+      console.log(response);
+      if(response.data.status == 200){
+        setUser(response.data.user);
+
+      }
+    }catch(e){
+      console.log(e);
+    }
   }
 
   return (

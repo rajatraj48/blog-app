@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate(); 
 
   const [open, setOpen] = useState(false); // Mobile menu open/close state
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown menu state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open/close state
 
   const btnRef = useRef(null); // Reference to the dropdown button
