@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import { FiLogOut } from "react-icons/fi"; // Import logout icon
 import ProfileDetails from "./ProfileDetails";
+import Image from "./Image";
 
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
@@ -56,6 +57,7 @@ const Navbar = () => {
 <div className="w-full h-16 md:h-20 bg-[#DCD0FF] flex items-center justify-between px-6">
   {/* Logo Section */}
   <Link to="/" className="flex items-center gap-4 text-2xl font-bold text-indigo-900">
+  <Image src="blog_app/logo.png" alt="Lama Logo" w={32} h={32} />
     <span>WordWeaver</span>
   </Link>
 
