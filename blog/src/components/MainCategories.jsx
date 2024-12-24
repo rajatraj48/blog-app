@@ -17,7 +17,7 @@ const MainCategories = () => {
           to="/posts?cat=web-design"
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
-          Web Design
+         Artificial Intelligence
         </Link>
         <Link
           to="/posts?cat=development"
@@ -36,6 +36,12 @@ const MainCategories = () => {
           className="hover:bg-blue-50 rounded-full px-4 py-2"
         >
           Search Engines
+        </Link>
+        <Link
+          to="/posts?cat=seo"
+          className="hover:bg-blue-50 rounded-full px-4 py-2"
+        >
+          Digital Marketing
         </Link>
     
       </div>

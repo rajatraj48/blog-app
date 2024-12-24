@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,7 @@ const RegisterPage = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
   const handleChange = (e) => {
     //console.log(e);
     const { id, value } = e.target;
@@ -31,11 +32,12 @@ const RegisterPage = () => {
       console.log(response, "res");
       // Handle successful response
       if (response.status === 201) {
-        setSuccessMessage(response.data.message);
+       // setSuccessMessage(response.data.message);
         setErrorMessage("");
+        navigate("/login")
       }
     } catch (error) {
-      console.log(error, error.response.data.message, "error");
+      
       setErrorMessage(error.response?.data?.message || "Something went wrong");
     }
   };
