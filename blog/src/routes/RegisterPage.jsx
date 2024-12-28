@@ -26,9 +26,7 @@ const RegisterPage = () => {
     console.log(formData);
     try {
       // Make the POST request to the backend
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/signup",formData
-      );
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/signup`,formData);
       console.log(response, "res");
       // Handle successful response
       if (response.status === 201) {

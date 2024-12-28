@@ -4,7 +4,7 @@ import Image from "./Image";
 
 const PostListItems = () => {
   return (
-    <div className="flex flex-col xl:flex-row gap-8 mb-12">
+    <div className="flex flex-col xl:flex-row gap-8 ">
       {/* image */}
 
       <div className="md:hidden xl:block xl:w-1/3">

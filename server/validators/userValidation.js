@@ -1,20 +1,33 @@
 import { customError } from "../customError/customError.js";
 
-export const validateRegisterInput = (name, username, email, password) => {
-  if (!name || name.trim() === "") {
-    throw new customError("Name is required", 400, "ValidationError", { field: "name" });
-  }
+export const validateInput = (fieldsRequired) => {
+  return (req, res, next) => {
+    const { name, username, email, password } = req.body;
+    const errors = [];
 
-  if (!username || username.trim() === "") {
-    throw new customError("Username is required", 400, "ValidationError", { field: "username" });
-  }
+    // Validate based on fieldsRequired passed as an argument
+    if (fieldsRequired.includes("name") && (!name || name.trim() === "")) {
+      errors.push({ field: "name", message: "Name is required" });
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !emailRegex.test(email)) {
-    throw new customError("Invalid email format", 400, "ValidationError", { field: "email" });
-  }
+    if (fieldsRequired.includes("username") && (!username || username.trim() === "")) {
+      errors.push({ field: "username", message: "Username is required" });
+    }
 
-  if (!password || password.length < 6) {
-    throw new customError("Password must be at least 6 characters long", 400, "ValidationError", { field: "password" });
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (fieldsRequired.includes("email") && (!email || !emailRegex.test(email))) {
+      errors.push({ field: "email", message: "Invalid email format" });
+    }
+
+    if (fieldsRequired.includes("password") && (!password || password.length < 6)) {
+      errors.push({ field: "password", message: "Password must be at least 6 characters long" });
+    }
+
+    if (errors.length > 0) {
+      return next(new customError("Validation failed", 400, "ValidationError", errors));
+    }
+
+   
+    next();
+  };
 };

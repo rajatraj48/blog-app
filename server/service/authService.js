@@ -1,17 +1,14 @@
 import bcrypt from "bcrypt";
 import { Prisma, PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { validateRegisterInput } from "../validators/userValidation.js";
+import { validateInput } from "../validators/userValidation.js";
 import { customError } from "../customError/customError.js";
 
 const prisma = new PrismaClient();
 
 export const registerUser = async (name, username, email, password) => {
   try {
-    // Validate the input fields using the validator function
-    validateRegisterInput(name, username, email, password);
-
-    // Check if the email or username already exists
+   
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [{ email: email }, { username: username }],
@@ -19,11 +16,7 @@ export const registerUser = async (name, username, email, password) => {
     });
 
     if (existingUser) {
-      throw new customError(
-        "Email or Username already exists",
-        409,
-        "DuplicateError"
-      );
+      throw new customError("Email or Username already exists", 409, "DuplicateError");
     }
 
     const saltRounds = 2;
@@ -73,12 +66,12 @@ export const loginUser = async (username, password) => {
 
     console.log("Prisma query result:", user);
     if (!user) {
-      throw new customError("Invalid credentials", 401, "AuthenticationError");
+      throw new customError("Invalid credentials", 401, "AuthenticationError",'Please enter correct username');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new customError("Invalid credentials", 401, "AuthenticationError");
+      throw new customError("Invalid credentials", 401, "AuthenticationError",'Please enter correct password');
     }
 
     const token = jwt.sign(

@@ -2,7 +2,9 @@ import { customError } from "../customError/customError.js";
 import { registerUser } from "../service/authService.js";
 import { loginUser } from "../service/authService.js";
 import { updateUser } from "../service/authService.js";
-export const registerController = async (req, res) => {
+
+
+export const registerController = async (req, res,next) => {
   try {
     // Get the user data from the request body
     const { name, username, email, password } = req.body;
@@ -23,38 +25,17 @@ export const registerController = async (req, res) => {
       },
     });
   } catch (error) {
-    if (error instanceof customError) {
-      // Handle custom errors thrown in the service layer
-      res.status(error.statusCode).json({
-        message: error.message,
-        errorType: error.errorType,
-        details: error.details || null,
-      });
-    } else if (
-      error.message === "All Fields are required" ||
-      error.message === "Invalid email format" ||
-      error.message === "Password must be at least 6 characters long"
-    ) {
-      res.status(400).json({ message: error.message });
-    } else if (error.message === "Username or Email already exists!") {
-      res.status(409).json({ message: error.message });
-    } else {
-      // Handle unexpected errors
-      res.status(500).json({ message: "Internal Server Error" });
-    }
+   
+    next(error); // Pass the error to the next middleware (errorHandler)
   }
 };
 
+
 //login controller
-export const loginController = async (req, res) => {
+export const loginController = async (req, res,next) => {
   try {
     const { username, password } = req.body;
 
-    if (!username || !password) {
-      throw new customError("All Fields are required", 400, "ValidationError");
-    }
-
-    // Call the service layer to login the user
     const { user, token } = await loginUser(username, password);
 
     // Send the successful response with user details and token
@@ -72,30 +53,9 @@ export const loginController = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login Error:", error);
+    
 
-    // Handle custom errors thrown in the service layer
-    if (error instanceof customError) {
-      res.status(error.statusCode).json({
-        message: error.message,
-        statusCode: error.statusCode,
-        success: false,
-        errorType: error.errorType,
-        details: error.details || null,
-      });
-    }
-    // Handle specific login validation error (incorrect credentials)
-    else if (error.message === "Invalid credentials") {
-      res.status(401).json({ message: error.message });
-    }
-    // Handle missing fields in the request
-    else if (error.message === "All Fields are required") {
-      res.status(400).json({ message: error.message });
-    }
-    // Handle unexpected errors
-    else {
-      res.status(500).json({ message: "Internal Server Error" });
-    }
+    next(error);
   }
 };
 
@@ -125,19 +85,31 @@ export const updateProfileController = async (req, res) => {
     console.log(error);
     if(error instanceof customError){
       res.status(error.statusCode).json({
-        message: error.message,
         statusCode: error.statusCode,
+        message: error.message,
         success: false,
         errorType: error.errorType,
         details: error.details || null,
       });
     }
     else if (error.message === "All Fields are required") {
-      res.status(400).json({ message: error.message });
+      res.status(error.statusCode).json({
+        statusCode: error.statusCode,
+        message: error.message,
+        success: false,
+        errorType: error.errorType,
+        details: error.details || null,
+      });
     }
     // Handle unexpected errors
     else {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(error.statusCode).json({
+        statusCode: error.statusCode,
+        message: error.message,
+        success: false,
+        errorType: error.errorType,
+        details: error.details || null,
+      });
     }
   }
 };

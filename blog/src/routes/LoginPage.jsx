@@ -25,10 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
-        formData
-      );
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`,formData);
 
       if (response.status === 200) {
         // Use the context methods to set user and token
