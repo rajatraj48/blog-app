@@ -29,12 +29,12 @@ const FeaturedPost = () => {
       {/* Others */}
       <div className="w-full lg:w-1/2 flex flex-col gap-4">
         {/* Second Section */}
-        <div className="flex gap-4 h-32">
+        <div className="lg:h-1/3 flex justify-between gap-4">
           {/* Image Container */}
-          <div className="w-1/3">
+          <div className="w-1/3 aspect-video">
             <Image
               src="blog_app/featured2.jpeg"
-              className="rounded-3xl object-cover w-full h-full"
+              className="rounded-3xl object-cover w-full h-full"  w="298"
             />
           </div>
 
@@ -56,12 +56,12 @@ const FeaturedPost = () => {
         </div>
 
         {/* Third Section */}
-        <div className="flex gap-4 h-32">
+        <div className="lg:h-1/3 flex justify-between gap-4">
           {/* Image Container */}
-          <div className="w-1/3">
+          <div className="w-1/3 aspect-video">
             <Image
               src="blog_app/featured2.jpeg"
-              className="rounded-3xl object-cover w-full h-full"
+              className="rounded-3xl object-cover w-full h-full"  w="298"
             />
           </div>
 
@@ -83,12 +83,12 @@ const FeaturedPost = () => {
         </div>
 
         {/* Fourth Section */}
-        <div className="flex gap-4 h-32">
+        <div className="lg:h-1/3 flex justify-between gap-4">
           {/* Image Container */}
           <div className="w-1/3">
             <Image
               src="blog_app/featured2.jpeg"
-              className="rounded-3xl object-cover w-full h-full"
+              className="rounded-3xl object-cover w-full h-full" w ="298"
             />
           </div>
 

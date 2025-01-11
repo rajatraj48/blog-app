@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         element: <PostListPage/>,
       },
       {
-        path: "/:slug",
+        path: "/test",
         element: <SinglePostPage/>,
       },
       {

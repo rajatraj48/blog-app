@@ -63,45 +63,48 @@ const Navbar = () => {
 
   {/* Mobile Menu */}
   <div className="md:hidden">
-    <div
-      className="cursor-pointer"
-      onClick={() => setOpen((prev) => !prev)}
-    >
-      {open ? (
-        <span className="text-xl font-bold text-indigo-900">X</span>
-      ) : (
-        <div className="space-y-1">
-          <div className="w-6 h-0.5 bg-indigo-900"></div>
-          <div className="w-6 h-0.5 bg-indigo-900"></div>
-          <div className="w-6 h-0.5 bg-indigo-900"></div>
+        {/* MOBILE BUTTON */}
+        <div
+          className="cursor-pointer text-4xl"
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          {/* Change Hamburger Icon */}
+          {/* {open ? "X" : "☰"} */}
+          <div className="flex flex-col gap-[5.4px]">
+            <div
+              className={`h-[3px] rounded-md w-6 bg-black origin-left transition-all ease-in-out ${
+                open && "rotate-45"
+              }`}
+            ></div>
+            <div
+              className={`h-[3px] rounded-md w-6 bg-black transition-all ease-in-out ${
+                open && "opacity-0"
+              }`}
+            ></div>
+            <div
+              className={`h-[3px] rounded-md w-6 bg-black origin-left transition-all ease-in-out ${
+                open && "-rotate-45"
+              }`}
+            ></div>
+          </div>
         </div>
-      )}
-    </div>
-    <div
-      className={`w-full h-screen bg-[#DCD0FF] flex flex-col items-center justify-center gap-8 font-medium text-lg absolute top-16 transition-transform duration-300 ${
-        open ? "right-0" : "-translate-x-full"
-      }`}
-    >
-      <Link to="/" className="text-indigo-900 hover:text-indigo-700 transition">
-        Home
-      </Link>
-      <Link to="/posts?sort=trending" className="text-indigo-900 hover:text-indigo-700 transition">
-        Trending
-      </Link>
-      <Link to="/posts?sort=popular" className="text-indigo-900 hover:text-indigo-700 transition">
-        Most Popular
-      </Link>
-      <Link to="/" className="text-indigo-900 hover:text-indigo-700 transition">
-        About
-      </Link>
-      <button
-        className="py-2 px-6 rounded-full bg-indigo-800 text-white hover:bg-indigo-700 transition"
-        onClick={handleLoginClick}
-      >
-        {user ? `👋 ${user.username}` : "Login 👋"}
-      </button>
-    </div>
-  </div>
+        {/* MOBILE LINK LIST */}
+        <div
+          className={`w-full h-screen bg-[#e6e6ff] flex flex-col items-center justify-center gap-8 font-medium text-lg absolute top-16 transition-all ease-in-out ${
+            open ? "-right-0" : "-right-[100%]"
+          }`}
+        >
+          <Link to="/" onClick={()=>setOpen(false)}>Home</Link>
+          <Link to="/posts?sort=trending" onClick={()=>setOpen(false)}>Trending</Link>
+          <Link to="/posts?sort=popular" onClick={()=>setOpen(false)}>Most Popular</Link>
+          <Link to="/" onClick={()=>setOpen(false)}>About</Link>
+          <Link to="/login" onClick={()=>setOpen(false)}>
+            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+              Login 👋
+            </button>
+          </Link>
+        </div>
+      </div>
 
   {/* Desktop Menu */}
   <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium text-indigo-900">
