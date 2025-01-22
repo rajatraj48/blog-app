@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css'; // Import the Quill CSS for styling
 
 const Write = () => {
@@ -9,17 +9,20 @@ const Write = () => {
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
     <h1 className="text-cl font-light">Create a New Post</h1>
     <form  className="flex flex-col gap-6 flex-1 mb-6">
-      {/* <Upload type="image" setProgress={setProgress} setData={setCover}>
+     
         <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
           Add a cover image
         </button>
-      </Upload> */}
-      <input
-        className="text-4xl font-semibold bg-transparent outline-none"
-        type="text"
-        placeholder="My Awesome Story"
-        name="title"
-      />
+      
+<input
+  className="text-4xl font-semibold font-sans bg-transparent outline-none placeholder-gray-500 focus:placeholder-gray-400 focus:ring-2 focus:ring-indigo-800 rounded-md p-2 transition duration-200"
+  type="text"
+  placeholder="My Awesome Story"
+  name="title"
+/>
+
+
+
       <div className="flex items-center gap-4">
         <label htmlFor="" className="text-sm">
           Choose a category:
@@ -51,14 +54,14 @@ const Write = () => {
             ▶️
           </Upload> */}
         </div>
-        {/* <ReactQuill
+       <ReactQuill
           theme="snow"
           className="flex-1 rounded-xl bg-white shadow-md"
           value={value} 
           onChange={setValue} 
          
           
-        /> */}
+        /> 
       </div>
       <button
         
